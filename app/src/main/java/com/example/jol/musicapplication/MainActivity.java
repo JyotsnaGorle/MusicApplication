@@ -1,8 +1,9 @@
 package com.example.jol.musicapplication;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,14 +29,18 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.search_option:
-                startSearchActivity();
+                startSearchFragment();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void startSearchActivity() {
-        Intent searchActivityIntent = new Intent(MainActivity.this, SearchActivity.class);
-        MainActivity.this.startActivity(searchActivityIntent);
+    private void startSearchFragment() {
+        FragmentManager fm = getFragmentManager();
+
+        FragmentTransaction ft = fm.beginTransaction();
+        SearchFragment searchFragment = new SearchFragment();
+        ft.add(R.id.fragment_container, searchFragment, "");
+        ft.commit();
     }
 }
