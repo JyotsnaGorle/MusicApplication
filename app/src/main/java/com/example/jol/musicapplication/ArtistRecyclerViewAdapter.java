@@ -3,6 +3,7 @@ package com.example.jol.musicapplication;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,7 +34,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         String url = artistList.get(i).image.get(1).text;
         if(viewHolder.imageView != null) {
             new DownloadImageTask(viewHolder.imageView).execute(url);
@@ -44,7 +45,10 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
             public void onClick(View v) {
                 FragmentManager fm = ((MainActivity) context).getFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
+                Bundle args = new Bundle();
+                args.putParcelable("artist", artistList.get(i));
                 AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
+                albumOverviewFragment.setArguments(args);
                 ft.replace(R.id.fragment_container, albumOverviewFragment, "");
                 ft.commit();
             }
