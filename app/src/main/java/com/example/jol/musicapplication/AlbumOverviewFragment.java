@@ -1,7 +1,9 @@
 package com.example.jol.musicapplication;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +27,9 @@ public class AlbumOverviewFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+        ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        supportActionBar.setTitle("Overview");
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
         LastFMArtist artist = (LastFMArtist) getArguments().get("artist");
         name.setText(artist.name);
         listeners.setText(artist.listeners);

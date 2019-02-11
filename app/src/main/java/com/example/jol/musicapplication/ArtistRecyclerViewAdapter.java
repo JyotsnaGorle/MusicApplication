@@ -1,10 +1,10 @@
 package com.example.jol.musicapplication;
 
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,13 +43,14 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((MainActivity) context).getFragmentManager();
+                FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
                 args.putParcelable("artist", artistList.get(i));
                 AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
                 albumOverviewFragment.setArguments(args);
-                ft.replace(R.id.fragment_container, albumOverviewFragment, "");
+                ft.replace(R.id.fragment_container, albumOverviewFragment, "album_overview");
+                ft.addToBackStack("album_overview");
                 ft.commit();
             }
         });
