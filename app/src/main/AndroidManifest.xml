@@ -24,7 +24,6 @@
         <activity
             android:name=".SearchActivity"
             tools:targetApi="jelly_bean"></activity>
-        <activity android:name=".AlbumOverviewActivity"></activity>
     </application>
 
 </manifest>

@@ -25,7 +25,7 @@ public class SearchFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_search,
+        View view = inflater.inflate(R.layout.fragment_search,
                 container, false);
         inputSearch = view.findViewById(R.id.search_input);
         searchButton = view.findViewById(R.id.search_button);
