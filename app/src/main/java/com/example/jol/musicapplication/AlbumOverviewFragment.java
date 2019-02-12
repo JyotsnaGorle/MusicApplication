@@ -29,11 +29,10 @@ public class AlbumOverviewFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         supportActionBar.setTitle("Overview");
-        supportActionBar.setDisplayHomeAsUpEnabled(true);
         LastFMArtist artist = (LastFMArtist) getArguments().get("artist");
         name.setText(artist.name);
         listeners.setText(artist.listeners);
-        String url = artist.image.get(2).text;
+        String url = artist.image.get(3).text;
         if(image != null) {
             new DownloadImageTask(image).execute(url);
         }

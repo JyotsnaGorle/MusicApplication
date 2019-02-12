@@ -43,7 +43,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+                FragmentManager fm = ((SearchActivity) context).getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
                 args.putParcelable("artist", artistList.get(i));

@@ -23,7 +23,7 @@
         </activity>
         <activity
             android:name=".SearchActivity"
-            tools:targetApi="jelly_bean"></activity>
+            tools:targetApi="jelly_bean" />
     </application>
 
 </manifest>
