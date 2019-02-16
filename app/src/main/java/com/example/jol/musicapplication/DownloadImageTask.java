@@ -6,10 +6,13 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.InputStream;
 
 class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
+    Bitmap downloadedImage;
     public DownloadImageTask(ImageView bmImage) {
         this.bmImage = bmImage;
     }
@@ -20,6 +23,7 @@ class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         try {
             InputStream in = new java.net.URL(urldisplay).openStream();
             bmp = BitmapFactory.decodeStream(in);
+            downloadedImage = bmp;
         } catch (Exception e) {
             Log.e("Error", e.getMessage());
             e.printStackTrace();

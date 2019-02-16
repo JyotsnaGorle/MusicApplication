@@ -1,19 +1,29 @@
 package com.example.jol.musicapplication;
 
+import android.annotation.SuppressLint;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.io.InputStream;
 
 public class AlbumOverviewFragment extends Fragment {
     TextView listeners;
     TextView name;
     ImageView image;
+    Button saveButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,6 +32,7 @@ public class AlbumOverviewFragment extends Fragment {
         listeners = view.findViewById(R.id.number_listeners);
         name = view.findViewById(R.id.artist_overview_name);
         image = view.findViewById(R.id.artist_overview_image);
+        saveButton = view.findViewById(R.id.save_button);
         return view;
     }
 
@@ -32,9 +43,38 @@ public class AlbumOverviewFragment extends Fragment {
         LastFMArtist artist = (LastFMArtist) getArguments().get("artist");
         name.setText(artist.name);
         listeners.setText(artist.listeners);
-        String url = artist.image.get(3).text;
+        final String url = artist.image.get(3).text;
         if(image != null) {
             new DownloadImageTask(image).execute(url);
+        }
+        saveButton.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                new DownloadImageAndSaveToDB().execute(url);
+            }
+        });
+    }
+
+    @SuppressLint("StaticFieldLeak")
+    private class DownloadImageAndSaveToDB extends AsyncTask<String,Void,Bitmap> {
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            String urldisplay = strings[0];
+            Bitmap bmp = null;
+            try {
+                InputStream in = new java.net.URL(urldisplay).openStream();
+                bmp = BitmapFactory.decodeStream(in);
+            } catch (Exception e) {
+                Log.e("Error", e.getMessage());
+                e.printStackTrace();
+            }
+            return bmp;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            Artist artist = new Artist(1, name.getText().toString(), listeners.getText().toString(), "", result);
+            SQLiteDatabaseHandler.getInstance(getContext()).saveArtist(artist);
         }
     }
 }

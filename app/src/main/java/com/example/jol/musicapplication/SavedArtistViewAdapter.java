@@ -2,6 +2,7 @@ package com.example.jol.musicapplication;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -9,38 +10,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecyclerViewAdapter.ViewHolder>  {
+public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistViewAdapter.ViewHolder>  {
 
-    private ArrayList<LastFMArtist> artistList;
+    ArrayList<Artist> artistList;
     Context context;
+    private SQLiteDatabaseHandler db;
 
-    ArtistRecyclerViewAdapter(Context context, LastFMArtistsResposne artistsResposne){
-        this.artistList = artistsResposne.artist;
+    SavedArtistViewAdapter(Context context, ArrayList<Artist> artistList){
+        this.artistList = artistList;
         this.context = context;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public SavedArtistViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View listItem= layoutInflater.inflate(R.layout.artist_list_item, viewGroup, false);
-        return new ViewHolder(listItem);
+        SavedArtistViewAdapter.ViewHolder viewHolder = new SavedArtistViewAdapter.ViewHolder(listItem);
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        final LastFMArtist currentArtist = artistList.get(i);
-        String url = currentArtist.image.get(1).text;
-        DownloadImageTask downloadImageTask = null;
-        if(viewHolder.imageView != null) {
-            downloadImageTask = new DownloadImageTask(viewHolder.imageView);
-            downloadImageTask.execute(url);
-        }
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
+        final Artist currentArtist = artistList.get(i);
+        viewHolder.imageView.setImageBitmap(currentArtist.image);
         viewHolder.textView.setText(currentArtist.name);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +47,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
                 FragmentManager fm = ((SearchActivity) context).getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
-                args.putParcelable("artist", currentArtist);
+                args.putParcelable("artist", (Parcelable) currentArtist);
                 AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
                 albumOverviewFragment.setArguments(args);
                 ft.replace(R.id.fragment_container, albumOverviewFragment, "album_overview");
@@ -66,7 +65,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
-        ViewHolder(View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.artist_image);
             this.textView = itemView.findViewById(R.id.artist_name);

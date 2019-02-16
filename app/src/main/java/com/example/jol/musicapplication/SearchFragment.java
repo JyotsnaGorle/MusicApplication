@@ -21,6 +21,7 @@ public class SearchFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    LastFMArtistsResposne artistList;
 
     @Nullable
     @Override
@@ -40,6 +41,20 @@ public class SearchFragment extends Fragment {
             }
         });
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("artistList", artistList);
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if(savedInstanceState != null) {
+            artistList = (LastFMArtistsResposne) savedInstanceState.get("artistList");
+        }
     }
 
     private void performSearch(View v) {
@@ -65,6 +80,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void populateList(LastFMArtistsResposne lastFMArtistsResposne) {
+        artistList = lastFMArtistsResposne;
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
         mAdapter = new ArtistRecyclerViewAdapter(getActivity(), lastFMArtistsResposne);
