@@ -18,11 +18,10 @@ import android.widget.TextView;
 
 import com.example.jol.musicapplication.Database.DBDeleteCompletion;
 import com.example.jol.musicapplication.Database.DBSaveCompletion;
+import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
 import com.example.jol.musicapplication.Models.Album;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 import com.example.jol.musicapplication.R;
-import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
-import com.example.jol.musicapplication.Service.DownloadImageTask;
 
 import java.io.InputStream;
 
@@ -66,12 +65,12 @@ public class AlbumOverviewFragment extends Fragment implements DBSaveCompletion 
             albumName.setText(album.name);
             final String finalUrl = album.image.get(3).text;
             if(image != null) {
-                new DownloadImageTask(image).execute(finalUrl);
+                new DownloadImageAsyncTask(image).execute(finalUrl);
             }
             saveButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    new DownloadImageAndSaveToDB(dbInstance).execute(finalUrl);
+                    new DownloadImageAsyncTask(dbInstance).execute(finalUrl);
                 }
             });
         }
@@ -102,10 +101,15 @@ public class AlbumOverviewFragment extends Fragment implements DBSaveCompletion 
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class DownloadImageAndSaveToDB extends AsyncTask<String,Void,Bitmap> {
+    private class DownloadImageAsyncTask extends AsyncTask<String,Void,Bitmap> {
         SQLiteDatabaseHandler dbInstance;
-        public DownloadImageAndSaveToDB(SQLiteDatabaseHandler dbInstance) {
+        ImageView imageView;
+        public DownloadImageAsyncTask(SQLiteDatabaseHandler dbInstance) {
             this.dbInstance = dbInstance;
+        }
+
+        public DownloadImageAsyncTask(ImageView image) {
+            this.imageView = image;
         }
 
         @Override
@@ -123,8 +127,16 @@ public class AlbumOverviewFragment extends Fragment implements DBSaveCompletion 
         }
 
         protected void onPostExecute(Bitmap result) {
-            SavedAlbum savedAlbum = new SavedAlbum(1, albumName.getText().toString(), playcount.getText().toString(), name.getText().toString(), result);
-            dbInstance.saveAlbum(savedAlbum);
+            if(result == null){
+                result = BitmapFactory.decodeResource(getResources(), R.drawable.icons8);
+            }
+            if(dbInstance != null) {
+                SavedAlbum savedAlbum = new SavedAlbum(1, albumName.getText().toString(), playcount.getText().toString(), name.getText().toString(), result);
+                dbInstance.saveAlbum(savedAlbum);
+            }
+            if(imageView != null) {
+                imageView.setImageBitmap(result);
+            }
         }
     }
 }
