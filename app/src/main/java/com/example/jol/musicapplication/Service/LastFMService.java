@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class LastFMService {
 
@@ -30,8 +31,10 @@ public class LastFMService {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    LastFMArtistsResposne artistsResposne = new Gson().fromJson(response.get("topalbums").toString(), LastFMArtistsResposne.class);
-                    serviceResponse.onResponseReceived(artistsResposne);
+                    if(statusCode == 200) {
+                        LastFMArtistsResposne artistsResposne = new Gson().fromJson(response.get("topalbums").toString(), LastFMArtistsResposne.class);
+                        serviceResponse.onResponseReceived(artistsResposne);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

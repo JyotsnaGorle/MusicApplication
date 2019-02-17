@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.jol.musicapplication.ArtistRecyclerViewAdapter;
@@ -23,10 +24,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
-    TextView inputSearch;
+    EditText inputSearch;
     Button searchButton;
     private RecyclerView mRecyclerView;
     ArrayList<Album> artistList;
+    TextView placeholder;
 
     @Nullable
     @Override
@@ -35,7 +37,7 @@ public class SearchFragment extends Fragment {
                 container, false);
         inputSearch = view.findViewById(R.id.search_input);
         searchButton = view.findViewById(R.id.search_button);
-
+        placeholder = view.findViewById(R.id.placeholder);
         mRecyclerView = view.findViewById(R.id.artist_list);
         mRecyclerView.setHasFixedSize(true);
 
@@ -69,8 +71,12 @@ public class SearchFragment extends Fragment {
             lastFMService.searchArtists(getActivity(), searchText, new ServiceResponse() {
                 @Override
                 public void onResponseReceived(LastFMArtistsResposne lastFMArtistsResposne) {
-                    artistList = lastFMArtistsResposne.album;
-                    populateList(lastFMArtistsResposne.album);
+                    if(lastFMArtistsResposne.album.size() > 0){
+                        artistList = lastFMArtistsResposne.album;
+                        populateList(lastFMArtistsResposne.album);
+                    } else {
+                        placeholder.setText("No results found");
+                    }
                 }
             });
         } catch (IOException e) {
