@@ -16,7 +16,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jol.musicapplication.Database.CRUDCompletion;
+import com.example.jol.musicapplication.DBDeleteCompletion;
+import com.example.jol.musicapplication.Database.DBSaveCompletion;
 import com.example.jol.musicapplication.Models.Album;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 import com.example.jol.musicapplication.R;
@@ -25,14 +26,14 @@ import com.example.jol.musicapplication.Service.DownloadImageTask;
 
 import java.io.InputStream;
 
-public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
+public class AlbumOverviewFragment extends Fragment implements DBSaveCompletion {
     TextView playcount;
     TextView albumName;
     TextView name;
     ImageView image;
     Button saveButton;
+    TextView onSave;
     Button deleteButton;
-    SavedAlbum savedaAlbum;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,6 +44,7 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
         albumName = view.findViewById(R.id.album_name);
         image = view.findViewById(R.id.artist_overview_image);
         saveButton = view.findViewById(R.id.save_button);
+        onSave = view.findViewById(R.id.onSave);
         deleteButton = view.findViewById(R.id.delete_button);
         return view;
     }
@@ -51,7 +53,7 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
     public void onViewCreated(View view, Bundle savedInstanceState) {
 
         final SQLiteDatabaseHandler dbInstance = SQLiteDatabaseHandler.getInstance(getContext());
-        dbInstance.completion = this;
+        dbInstance.saveCompletion = this;
 
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         supportActionBar.setTitle("Overview");
@@ -74,12 +76,20 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
             });
         }
         else if(getArguments().get("saved_album") != null) {
-            savedaAlbum = (SavedAlbum) getArguments().get("saved_album");
-            name.setText(savedaAlbum.getArtistName());
-            playcount.setText(savedaAlbum.getPlaycount());
-            image.setImageBitmap(savedaAlbum.image);
-            albumName.setText(savedaAlbum.name);
+            final SavedAlbum savedAlbum = (SavedAlbum) getArguments().get("saved_album");
+            name.setText(savedAlbum.getArtistName());
+            playcount.setText(savedAlbum.getPlaycount());
+            image.setImageBitmap(savedAlbum.image);
+            albumName.setText(savedAlbum.name);
             saveButton.setVisibility(View.GONE);
+            deleteButton.setVisibility(View.VISIBLE);
+            deleteButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    dbInstance.deleteCompletion = (DBDeleteCompletion) getActivity();
+                    dbInstance.deleteOne(savedAlbum);
+                }
+            });
         }
 
     }
@@ -87,7 +97,8 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
     @Override
     public void onSave() {
         saveButton.setVisibility(View.GONE);
-        deleteButton.setVisibility(View.VISIBLE);
+        onSave.setText("Album is saved locally, view it on your home screen");
+        onSave.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("StaticFieldLeak")

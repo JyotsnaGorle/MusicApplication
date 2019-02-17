@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.example.jol.musicapplication.DBDeleteCompletion;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 
 import java.io.ByteArrayOutputStream;
@@ -25,7 +26,8 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_URL = "url";
     private static final String KEY_IMAGE = "image";
 
-    public CRUDCompletion completion;
+    public DBSaveCompletion saveCompletion;
+    public DBDeleteCompletion deleteCompletion;
 
     public static synchronized SQLiteDatabaseHandler getInstance(Context context) {
         if (sInstance == null) {
@@ -78,6 +80,14 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         return savedAlbums;
     }
 
+    public void deleteOne(SavedAlbum savedAlbum) {
+        // Get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, "id = ?", new String[] { String.valueOf(savedAlbum.getId()) });
+        db.close();
+        deleteCompletion.onDelete();
+    }
+
     public void saveAlbum(SavedAlbum savedAlbum) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -91,7 +101,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_IMAGE, buffer);
         db.insert(TABLE_NAME, null, values);
         db.close();
-        completion.onSave();
+        saveCompletion.onSave();
     }
 
 }

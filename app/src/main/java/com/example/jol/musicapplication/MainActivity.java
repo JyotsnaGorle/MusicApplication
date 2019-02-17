@@ -11,7 +11,7 @@ import android.view.MenuItem;
 import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
 import com.example.jol.musicapplication.fragments.SavedAlbumListFragment;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DBDeleteCompletion{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,5 +69,10 @@ public class MainActivity extends AppCompatActivity {
         SavedAlbumListFragment savedAlbumListFragment = new SavedAlbumListFragment();
         ft.replace(R.id.fragment_container_2, savedAlbumListFragment, "saved_albums_fragment");
         ft.commit();
+    }
+
+    @Override
+    public void onDelete() {
+        onBackPressed();
     }
 }

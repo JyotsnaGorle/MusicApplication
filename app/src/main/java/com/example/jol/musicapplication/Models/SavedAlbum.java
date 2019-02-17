@@ -46,6 +46,10 @@ public class SavedAlbum implements Parcelable {
     public String getArtistName() { return  this.artistName;}
     public Bitmap getImage() { return  this.image;}
 
+    public int getId() {
+        return id;
+    }
+
     @Override
     public int describeContents() {
         return 0;
