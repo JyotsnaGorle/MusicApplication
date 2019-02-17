@@ -20,13 +20,12 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "MyMusicDB";
     private static final String TABLE_NAME = "MyMusic";
-    private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
     private static final String KEY_PLAYCOUNT = "playcount";
     private static final String KEY_URL = "url";
     private static final String KEY_IMAGE = "image";
-    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_PLAYCOUNT,
-            KEY_URL, KEY_IMAGE};
+
+    public CRUDCompletion completion;
 
     public static synchronized SQLiteDatabaseHandler getInstance(Context context) {
         if (sInstance == null) {
@@ -61,7 +60,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        SavedAlbum savedAlbum = null;
+        SavedAlbum savedAlbum;
 
         if (cursor.moveToFirst()) {
             do {
@@ -92,6 +91,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_IMAGE, buffer);
         db.insert(TABLE_NAME, null, values);
         db.close();
+        completion.onSave();
     }
 
 }

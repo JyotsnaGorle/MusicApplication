@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
 
@@ -20,9 +19,8 @@ import java.util.ArrayList;
 
 public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistViewAdapter.ViewHolder>  {
 
-    ArrayList<SavedAlbum> savedAlbumList;
+    private ArrayList<SavedAlbum> savedAlbumList;
     Context context;
-    private SQLiteDatabaseHandler db;
 
     public SavedArtistViewAdapter(Context context, ArrayList<SavedAlbum> savedAlbumList){
         this.savedAlbumList = savedAlbumList;
@@ -34,8 +32,7 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
     public SavedArtistViewAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View listItem= layoutInflater.inflate(R.layout.artist_list_item, viewGroup, false);
-        SavedArtistViewAdapter.ViewHolder viewHolder = new SavedArtistViewAdapter.ViewHolder(listItem);
-        return viewHolder;
+        return new ViewHolder(listItem);
     }
 
     @Override
@@ -46,17 +43,20 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                Bundle args = new Bundle();
-                args.putParcelable("saved_album", currentSavedAlbum);
-                AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
-                albumOverviewFragment.setArguments(args);
-                ft.replace(R.id.fragment_container_2, albumOverviewFragment, "saved_album_overview");
-                ft.addToBackStack("saved_album_overview");
-                ft.commit();
+                launchOverviewFragment(currentSavedAlbum);
             }
         });
+    }
+
+    private void launchOverviewFragment(SavedAlbum currentSavedAlbum) {
+        FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Bundle args = new Bundle();
+        args.putParcelable("saved_album", currentSavedAlbum);
+        AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
+        albumOverviewFragment.setArguments(args);
+        ft.replace(R.id.fragment_container_2, albumOverviewFragment, "saved_album_overview");
+        ft.commit();
     }
 
     @Override
@@ -67,7 +67,7 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imageView;
         TextView textView;
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             super(itemView);
             this.imageView = itemView.findViewById(R.id.artist_image);
             this.textView = itemView.findViewById(R.id.artist_name);

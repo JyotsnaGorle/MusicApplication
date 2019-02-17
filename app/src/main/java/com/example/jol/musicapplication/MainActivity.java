@@ -4,19 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
 import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
 import com.example.jol.musicapplication.fragments.SavedAlbumListFragment;
 
 public class MainActivity extends AppCompatActivity {
-
-    private SQLiteDatabaseHandler db;
-    private RecyclerView savedArtists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

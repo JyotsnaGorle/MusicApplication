@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jol.musicapplication.Database.CRUDCompletion;
 import com.example.jol.musicapplication.Models.Album;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 import com.example.jol.musicapplication.R;
@@ -24,7 +25,7 @@ import com.example.jol.musicapplication.Service.DownloadImageTask;
 
 import java.io.InputStream;
 
-public class AlbumOverviewFragment extends Fragment {
+public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
     TextView playcount;
     TextView name;
     ImageView image;
@@ -43,6 +44,10 @@ public class AlbumOverviewFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
+
+        final SQLiteDatabaseHandler dbInstance = SQLiteDatabaseHandler.getInstance(getContext());
+        dbInstance.completion = this;
+
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         supportActionBar.setTitle("Overview");
         supportActionBar.setDisplayShowHomeEnabled(true);
@@ -51,16 +56,14 @@ public class AlbumOverviewFragment extends Fragment {
             Album album = (Album) getArguments().get("album");
             name.setText(album.name);
             playcount.setText(album.playcount);
-            String url = album.image.get(3).text;
-
+            final String finalUrl = album.image.get(3).text;
             if(image != null) {
-                new DownloadImageTask(image).execute(url);
+                new DownloadImageTask(image).execute(finalUrl);
             }
-            final String finalUrl = url;
             saveButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    new DownloadImageAndSaveToDB().execute(finalUrl);
+                    new DownloadImageAndSaveToDB(dbInstance).execute(finalUrl);
                 }
             });
         }
@@ -74,8 +77,17 @@ public class AlbumOverviewFragment extends Fragment {
 
     }
 
+    @Override
+    public void onSave() {
+        saveButton.setVisibility(View.INVISIBLE);
+    }
+
     @SuppressLint("StaticFieldLeak")
     private class DownloadImageAndSaveToDB extends AsyncTask<String,Void,Bitmap> {
+        SQLiteDatabaseHandler dbInstance;
+        public DownloadImageAndSaveToDB(SQLiteDatabaseHandler dbInstance) {
+            this.dbInstance = dbInstance;
+        }
 
         @Override
         protected Bitmap doInBackground(String... strings) {
@@ -93,7 +105,7 @@ public class AlbumOverviewFragment extends Fragment {
 
         protected void onPostExecute(Bitmap result) {
             SavedAlbum savedAlbum = new SavedAlbum(1, name.getText().toString(), playcount.getText().toString(), "", result);
-            SQLiteDatabaseHandler.getInstance(getContext()).saveAlbum(savedAlbum);
+            dbInstance.saveAlbum(savedAlbum);
         }
     }
 }
