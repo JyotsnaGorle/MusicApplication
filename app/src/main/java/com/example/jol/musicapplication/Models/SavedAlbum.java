@@ -8,14 +8,14 @@ public class SavedAlbum implements Parcelable {
     int id;
     public String name;
     String playcount;
-    String url;
+    String artistName;
     public Bitmap image;
 
-    public SavedAlbum(int id, String name, String playcount, String url, Bitmap image) {
+    public SavedAlbum(int id, String name, String playcount, String artistName, Bitmap image) {
         this.id = id;
         this.name = name;
         this.playcount = playcount;
-        this.url = url;
+        this.artistName = artistName;
         this.image = image;
     }
 
@@ -23,7 +23,7 @@ public class SavedAlbum implements Parcelable {
         id = in.readInt();
         name = in.readString();
         playcount = in.readString();
-        url = in.readString();
+        artistName = in.readString();
         image = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
@@ -43,7 +43,7 @@ public class SavedAlbum implements Parcelable {
         return this.name;
     }
     public String getPlaycount() { return  this.playcount;}
-    public String getUrl() { return  this.url;}
+    public String getArtistName() { return  this.artistName;}
     public Bitmap getImage() { return  this.image;}
 
     @Override
@@ -56,7 +56,7 @@ public class SavedAlbum implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeString(playcount);
-        dest.writeString(url);
+        dest.writeString(artistName);
         dest.writeParcelable(image, flags);
     }
 }

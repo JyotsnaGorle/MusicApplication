@@ -1,7 +1,7 @@
 package com.example.jol.musicapplication.Models;
 
 public class ArtistFM {
-    String name;
+    public String name;
     String mbid;
     String url;
 }

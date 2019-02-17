@@ -27,20 +27,23 @@ import java.io.InputStream;
 
 public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
     TextView playcount;
+    TextView albumName;
     TextView name;
     ImageView image;
     Button saveButton;
-    TextView onSave;
+    Button deleteButton;
+    SavedAlbum savedaAlbum;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_album_overview,
                 container, false);
-        playcount = view.findViewById(R.id.number_listeners);
+        playcount = view.findViewById(R.id.playcount);
         name = view.findViewById(R.id.artist_overview_name);
+        albumName = view.findViewById(R.id.album_name);
         image = view.findViewById(R.id.artist_overview_image);
         saveButton = view.findViewById(R.id.save_button);
-        onSave = view.findViewById(R.id.onSave);
+        deleteButton = view.findViewById(R.id.delete_button);
         return view;
     }
 
@@ -56,8 +59,9 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
         supportActionBar.setDisplayHomeAsUpEnabled(true);
         if(getArguments().get("album") != null) {
             Album album = (Album) getArguments().get("album");
-            name.setText(album.name);
+            name.setText(album.artist.name);
             playcount.setText(album.playcount);
+            albumName.setText(album.name);
             final String finalUrl = album.image.get(3).text;
             if(image != null) {
                 new DownloadImageTask(image).execute(finalUrl);
@@ -70,20 +74,20 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
             });
         }
         else if(getArguments().get("saved_album") != null) {
-            SavedAlbum savedaAlbum = (SavedAlbum) getArguments().get("saved_album");
-            name.setText(savedaAlbum.name);
+            savedaAlbum = (SavedAlbum) getArguments().get("saved_album");
+            name.setText(savedaAlbum.getArtistName());
             playcount.setText(savedaAlbum.getPlaycount());
             image.setImageBitmap(savedaAlbum.image);
-            saveButton.setVisibility(View.INVISIBLE);
+            albumName.setText(savedaAlbum.name);
+            saveButton.setVisibility(View.GONE);
         }
 
     }
 
     @Override
     public void onSave() {
-        saveButton.setVisibility(View.INVISIBLE);
-        onSave.setText("Album is saved locally, view it on your home screen");
-        onSave.setVisibility(View.VISIBLE);
+        saveButton.setVisibility(View.GONE);
+        deleteButton.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -108,7 +112,7 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
         }
 
         protected void onPostExecute(Bitmap result) {
-            SavedAlbum savedAlbum = new SavedAlbum(1, name.getText().toString(), playcount.getText().toString(), "", result);
+            SavedAlbum savedAlbum = new SavedAlbum(1, albumName.getText().toString(), playcount.getText().toString(), name.getText().toString(), result);
             dbInstance.saveAlbum(savedAlbum);
         }
     }

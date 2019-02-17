@@ -83,7 +83,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_NAME, savedAlbum.getName());
         values.put(KEY_PLAYCOUNT, savedAlbum.getPlaycount());
-        values.put(KEY_URL, savedAlbum.getUrl());
+        values.put(KEY_URL, savedAlbum.getArtistName());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         savedAlbum.getImage().compress(Bitmap.CompressFormat.PNG, 100, out);
         byte[] buffer=out.toByteArray();

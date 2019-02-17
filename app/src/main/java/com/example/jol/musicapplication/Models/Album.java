@@ -11,7 +11,7 @@ public class Album implements Parcelable {
     String mbid;
     String url;
     public ArrayList<AlbumImage> image;
-    ArtistFM artist;
+    public ArtistFM artist;
 
     protected Album(Parcel in) {
         name = in.readString();
