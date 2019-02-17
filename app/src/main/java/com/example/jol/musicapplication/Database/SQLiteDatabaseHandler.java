@@ -8,7 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.example.jol.musicapplication.DBDeleteCompletion;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 
 import java.io.ByteArrayOutputStream;

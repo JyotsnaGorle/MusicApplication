@@ -8,10 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.jol.musicapplication.Database.DBDeleteCompletion;
 import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
 import com.example.jol.musicapplication.fragments.SavedAlbumListFragment;
 
-public class MainActivity extends AppCompatActivity implements DBDeleteCompletion{
+public class MainActivity extends AppCompatActivity implements DBDeleteCompletion {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

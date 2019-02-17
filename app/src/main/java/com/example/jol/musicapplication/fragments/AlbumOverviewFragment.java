@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.jol.musicapplication.DBDeleteCompletion;
+import com.example.jol.musicapplication.Database.DBDeleteCompletion;
 import com.example.jol.musicapplication.Database.DBSaveCompletion;
 import com.example.jol.musicapplication.Models.Album;
 import com.example.jol.musicapplication.Models.SavedAlbum;

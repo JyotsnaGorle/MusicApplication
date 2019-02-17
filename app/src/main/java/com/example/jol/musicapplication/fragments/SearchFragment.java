@@ -1,6 +1,7 @@
 package com.example.jol.musicapplication.fragments;
 
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,20 +15,20 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.jol.musicapplication.ArtistRecyclerViewAdapter;
+import com.example.jol.musicapplication.Models.Album;
 import com.example.jol.musicapplication.Service.LastFMService;
 import com.example.jol.musicapplication.Models.LastFMArtistsResposne;
 import com.example.jol.musicapplication.R;
 import com.example.jol.musicapplication.Service.ServiceResponse;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class SearchFragment extends Fragment {
     TextView inputSearch;
     Button searchButton;
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    LastFMArtistsResposne artistList;
+    ArrayList<Album> artistList;
 
     @Nullable
     @Override
@@ -50,16 +51,10 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelable("savedAlbumList", artistList);
-    }
-
-    @Override
-    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        if(savedInstanceState != null) {
-            artistList = (LastFMArtistsResposne) savedInstanceState.get("savedAlbumList");
+    public void onResume() {
+        super.onResume();
+        if (artistList!= null && artistList.size() > 0) {
+            populateList(artistList);
         }
     }
 
@@ -77,7 +72,8 @@ public class SearchFragment extends Fragment {
                 @Override
                 public void onResponseReceived(LastFMArtistsResposne lastFMArtistsResposne) {
                     Log.d("", "");
-                    populateList(lastFMArtistsResposne);
+                    artistList = lastFMArtistsResposne.album;
+                    populateList(lastFMArtistsResposne.album);
                 }
             });
         } catch (IOException e) {
@@ -85,11 +81,10 @@ public class SearchFragment extends Fragment {
         }
     }
 
-    private void populateList(LastFMArtistsResposne lastFMArtistsResposne) {
-        artistList = lastFMArtistsResposne;
-        mLayoutManager = new LinearLayoutManager(getActivity());
+    private void populateList(ArrayList<Album> lastFMArtistsResposne) {
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new ArtistRecyclerViewAdapter(getActivity(), lastFMArtistsResposne);
+        RecyclerView.Adapter mAdapter = new ArtistRecyclerViewAdapter(getActivity(), lastFMArtistsResposne);
         mRecyclerView.setAdapter(mAdapter);
     }
 }

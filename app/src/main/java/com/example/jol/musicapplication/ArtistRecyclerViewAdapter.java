@@ -24,8 +24,8 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
     private ArrayList<Album> artistList;
     Context context;
 
-    public ArtistRecyclerViewAdapter(Context context, LastFMArtistsResposne artistsResposne){
-        this.artistList = artistsResposne.album;
+    public ArtistRecyclerViewAdapter(Context context, ArrayList<Album> artistList){
+        this.artistList = artistList;
         this.context = context;
     }
 
