@@ -4,6 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <android.support.v7.widget.AppCompatTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/empty_list"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        android:layout_marginTop="40dp"
+        />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/saved_albums"
         android:layout_width="match_parent"
