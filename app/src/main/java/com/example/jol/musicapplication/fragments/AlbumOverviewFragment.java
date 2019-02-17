@@ -20,6 +20,7 @@ import com.example.jol.musicapplication.Database.DBDeleteCompletion;
 import com.example.jol.musicapplication.Database.DBSaveCompletion;
 import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
 import com.example.jol.musicapplication.Models.Album;
+import com.example.jol.musicapplication.Models.ImageSize;
 import com.example.jol.musicapplication.Models.SavedAlbum;
 import com.example.jol.musicapplication.R;
 
@@ -63,7 +64,7 @@ public class AlbumOverviewFragment extends Fragment implements DBSaveCompletion 
             name.setText(album.artist.name);
             playcount.setText(album.playcount);
             albumName.setText(album.name);
-            final String finalUrl = album.image.get(3).text;
+            final String finalUrl = album.image.get(ImageSize.EXTRALARGE.value).text;
             if(image != null) {
                 new DownloadImageAsyncTask(image).execute(finalUrl);
             }

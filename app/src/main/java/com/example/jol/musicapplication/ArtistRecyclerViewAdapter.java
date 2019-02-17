@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.jol.musicapplication.Models.Album;
+import com.example.jol.musicapplication.Models.ImageSize;
 import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
 
 import java.io.InputStream;
@@ -43,7 +44,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         final Album currentArtist = artistList.get(i);
-        String url = currentArtist.image.get(1).text;
+        String url = currentArtist.image.get(ImageSize.MEDIUM.value).text;
 
         if(viewHolder.imageView != null) {
             new DownloadImageAsyncTask(viewHolder.imageView).execute(url);
