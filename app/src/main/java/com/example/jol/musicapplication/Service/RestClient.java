@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Service;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;

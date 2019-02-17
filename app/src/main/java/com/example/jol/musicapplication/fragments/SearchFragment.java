@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,6 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.jol.musicapplication.ArtistRecyclerViewAdapter;
+import com.example.jol.musicapplication.Service.LastFMService;
+import com.example.jol.musicapplication.Models.LastFMArtistsResposne;
+import com.example.jol.musicapplication.R;
+import com.example.jol.musicapplication.Service.ServiceResponse;
 
 import java.io.IOException;
 

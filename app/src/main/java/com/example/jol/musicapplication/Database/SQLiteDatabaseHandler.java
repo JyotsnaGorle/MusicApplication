@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+
+import com.example.jol.musicapplication.Models.SavedAlbum;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -80,11 +82,11 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     public void saveAlbum(SavedAlbum savedAlbum) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, savedAlbum.name);
-        values.put(KEY_PLAYCOUNT, savedAlbum.playcount);
-        values.put(KEY_URL, savedAlbum.url);
+        values.put(KEY_NAME, savedAlbum.getName());
+        values.put(KEY_PLAYCOUNT, savedAlbum.getPlaycount());
+        values.put(KEY_URL, savedAlbum.getUrl());
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        savedAlbum.image.compress(Bitmap.CompressFormat.PNG, 100, out);
+        savedAlbum.getImage().compress(Bitmap.CompressFormat.PNG, 100, out);
         byte[] buffer=out.toByteArray();
         // insert
         values.put(KEY_IMAGE, buffer);

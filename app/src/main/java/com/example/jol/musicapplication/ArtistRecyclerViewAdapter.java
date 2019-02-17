@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jol.musicapplication.Models.Album;
+import com.example.jol.musicapplication.Models.LastFMArtistsResposne;
+import com.example.jol.musicapplication.Service.DownloadImageTask;
+import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
+
 import java.util.ArrayList;
 
 public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecyclerViewAdapter.ViewHolder>  {
@@ -19,7 +24,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
     private ArrayList<Album> artistList;
     Context context;
 
-    ArtistRecyclerViewAdapter(Context context, LastFMArtistsResposne artistsResposne){
+    public ArtistRecyclerViewAdapter(Context context, LastFMArtistsResposne artistsResposne){
         this.artistList = artistsResposne.album;
         this.context = context;
     }

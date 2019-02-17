@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Service;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,7 +10,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
 
-class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
+public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
     ImageView bmImage;
     Bitmap downloadedImage;
     public DownloadImageTask(ImageView bmImage) {

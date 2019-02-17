@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Models;
 
 import android.graphics.Bitmap;
 import android.os.Parcel;
@@ -6,12 +6,12 @@ import android.os.Parcelable;
 
 public class SavedAlbum implements Parcelable {
     int id;
-    String name;
+    public String name;
     String playcount;
     String url;
-    Bitmap image;
+    public Bitmap image;
 
-    SavedAlbum(int id, String name, String playcount, String url, Bitmap image) {
+    public SavedAlbum(int id, String name, String playcount, String url, Bitmap image) {
         this.id = id;
         this.name = name;
         this.playcount = playcount;
@@ -42,6 +42,9 @@ public class SavedAlbum implements Parcelable {
     public String getName() {
         return this.name;
     }
+    public String getPlaycount() { return  this.playcount;}
+    public String getUrl() { return  this.url;}
+    public Bitmap getImage() { return  this.image;}
 
     @Override
     public int describeContents() {

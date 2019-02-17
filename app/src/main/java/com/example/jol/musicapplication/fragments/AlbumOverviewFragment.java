@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.fragments;
 
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
@@ -15,6 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.jol.musicapplication.Models.Album;
+import com.example.jol.musicapplication.Models.SavedAlbum;
+import com.example.jol.musicapplication.R;
+import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
+import com.example.jol.musicapplication.Service.DownloadImageTask;
 
 import java.io.InputStream;
 
@@ -61,7 +67,7 @@ public class AlbumOverviewFragment extends Fragment {
         else if(getArguments().get("saved_album") != null) {
             SavedAlbum savedaAlbum = (SavedAlbum) getArguments().get("saved_album");
             name.setText(savedaAlbum.name);
-            playcount.setText(savedaAlbum.playcount);
+            playcount.setText(savedaAlbum.getPlaycount());
             image.setImageBitmap(savedaAlbum.image);
             saveButton.setVisibility(View.INVISIBLE);
         }

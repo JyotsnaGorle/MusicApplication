@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.jol.musicapplication.Models.SavedAlbum;
+import com.example.jol.musicapplication.R;
+import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
+import com.example.jol.musicapplication.SavedArtistViewAdapter;
 
 import java.util.ArrayList;
 

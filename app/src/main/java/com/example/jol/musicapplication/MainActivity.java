@@ -9,7 +9,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.ArrayList;
+import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
+import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
+import com.example.jol.musicapplication.fragments.SavedAlbumListFragment;
 
 public class MainActivity extends AppCompatActivity {
 

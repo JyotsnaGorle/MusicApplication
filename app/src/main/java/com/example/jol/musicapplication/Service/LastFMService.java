@@ -1,13 +1,14 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Service;
 
 import android.content.Context;
 import android.util.Log;
 
+import com.example.jol.musicapplication.Models.LastFMArtistsResposne;
+import com.example.jol.musicapplication.R;
 import com.google.gson.Gson;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 

@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Models;
 
 public class ArtistFM {
     String name;

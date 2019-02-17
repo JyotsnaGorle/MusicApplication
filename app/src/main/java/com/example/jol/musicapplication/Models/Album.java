@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,11 +6,11 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class Album implements Parcelable {
-    String name;
-    String playcount;
+    public String name;
+    public String playcount;
     String mbid;
     String url;
-    ArrayList<AlbumImage> image;
+    public ArrayList<AlbumImage> image;
     ArtistFM artist;
 
     protected Album(Parcel in) {

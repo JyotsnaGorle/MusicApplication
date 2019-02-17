@@ -1,4 +1,4 @@
-package com.example.jol.musicapplication;
+package com.example.jol.musicapplication.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -6,7 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class LastFMArtistsResposne implements Parcelable {
-    ArrayList<Album> album;
+    public ArrayList<Album> album;
 
     protected LastFMArtistsResposne(Parcel in) {
         album = in.createTypedArrayList(Album.CREATOR);

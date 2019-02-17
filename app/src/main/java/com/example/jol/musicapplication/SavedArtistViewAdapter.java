@@ -2,7 +2,6 @@ package com.example.jol.musicapplication;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -13,6 +12,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.jol.musicapplication.Database.SQLiteDatabaseHandler;
+import com.example.jol.musicapplication.Models.SavedAlbum;
+import com.example.jol.musicapplication.fragments.AlbumOverviewFragment;
+
 import java.util.ArrayList;
 
 public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistViewAdapter.ViewHolder>  {
@@ -21,7 +24,7 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
     Context context;
     private SQLiteDatabaseHandler db;
 
-    SavedArtistViewAdapter(Context context, ArrayList<SavedAlbum> savedAlbumList){
+    public SavedArtistViewAdapter(Context context, ArrayList<SavedAlbum> savedAlbumList){
         this.savedAlbumList = savedAlbumList;
         this.context = context;
     }
