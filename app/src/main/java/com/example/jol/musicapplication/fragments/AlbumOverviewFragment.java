@@ -30,6 +30,7 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
     TextView name;
     ImageView image;
     Button saveButton;
+    TextView onSave;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,6 +40,7 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
         name = view.findViewById(R.id.artist_overview_name);
         image = view.findViewById(R.id.artist_overview_image);
         saveButton = view.findViewById(R.id.save_button);
+        onSave = view.findViewById(R.id.onSave);
         return view;
     }
 
@@ -80,6 +82,8 @@ public class AlbumOverviewFragment extends Fragment implements CRUDCompletion {
     @Override
     public void onSave() {
         saveButton.setVisibility(View.INVISIBLE);
+        onSave.setText("Album is saved locally, view it on your home screen");
+        onSave.setVisibility(View.VISIBLE);
     }
 
     @SuppressLint("StaticFieldLeak")

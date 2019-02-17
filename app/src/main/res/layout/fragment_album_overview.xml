@@ -16,6 +16,12 @@
        android:id="@+id/save_button"/>
    <android.support.v7.widget.AppCompatTextView
        android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:id="@+id/onSave"
+       android:text="album saved"
+       android:visibility="invisible"/>
+   <android.support.v7.widget.AppCompatTextView
+       android:layout_width="match_parent"
        android:layout_height="match_parent"
        android:id="@+id/artist_overview_name"
        android:textAlignment="center"
