@@ -23,23 +23,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Home");
-        db = SQLiteDatabaseHandler.getInstance(this);
-        startSavedAlbumFragment();
-    }
-
-    private void startSavedAlbumFragment() {
-        FragmentManager fm = getSupportFragmentManager();
-
-        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
-        SavedAlbumListFragment savedAlbumListFragment = new SavedAlbumListFragment();
-        ft.replace(R.id.fragment_container_2, savedAlbumListFragment, "saved_albums_fragment");
-        ft.addToBackStack("saved_albums_fragment");
-        ft.commit();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
     }
 
     @Override
@@ -49,18 +32,45 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        startSavedAlbumFragment();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_search:
                 startSearchActivity();
                 break;
+            case android.R.id.home:
+                onBackPressed();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        AlbumOverviewFragment albumOverviewFragment = (AlbumOverviewFragment) getSupportFragmentManager().findFragmentByTag("saved_album_overview");
+        if (albumOverviewFragment != null && albumOverviewFragment.isVisible()) {
+            getSupportFragmentManager().popBackStack();
+            getSupportActionBar().setTitle("Home");
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+    }
     private void startSearchActivity() {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
+    }
+
+    private void startSavedAlbumFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        SavedAlbumListFragment savedAlbumListFragment = new SavedAlbumListFragment();
+        ft.replace(R.id.fragment_container_2, savedAlbumListFragment, "saved_albums_fragment");
+        ft.commit();
     }
 }

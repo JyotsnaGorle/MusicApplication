@@ -49,8 +49,8 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
                 args.putParcelable("saved_album", currentSavedAlbum);
                 AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
                 albumOverviewFragment.setArguments(args);
-                ft.replace(R.id.fragment_container_2, albumOverviewFragment, "album_overview");
-                ft.addToBackStack("album_overview");
+                ft.replace(R.id.fragment_container_2, albumOverviewFragment, "saved_album_overview");
+                ft.addToBackStack("saved_album_overview");
                 ft.commit();
             }
         });
