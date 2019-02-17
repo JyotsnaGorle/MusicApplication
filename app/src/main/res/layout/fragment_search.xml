@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -9,6 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="16dp"
+        android:id="@+id/search_layout"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp">
 
@@ -33,10 +35,23 @@
             android:visibility="gone"/>
     </LinearLayout>
 
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/avi"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="@style/AVLoadingIndicatorView"
+        android:visibility="gone"
+        app:indicatorName="BallPulseIndicator"
+        android:layout_marginLeft="170dp"
+        app:indicatorColor="@color/colorAccent"
+        android:layout_marginStart="170dp" />
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/artist_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:visibility="gone"/>
 
 </LinearLayout>
