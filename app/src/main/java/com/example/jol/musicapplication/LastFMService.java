@@ -19,7 +19,7 @@ public class LastFMService {
 
     public void searchArtists(Context context, String searchText, final ServiceResponse serviceResponse) throws IOException {
         RequestParams params = new RequestParams();
-        params.put("method", "artist.search");
+        params.put("method", "artist.gettopalbums");
         params.put("api_key", context.getString(R.string.api_key));
         params.put("format", "json");
         params.put("artist", searchText);
@@ -29,8 +29,7 @@ public class LastFMService {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
                 try {
-                    JSONObject results = (JSONObject) response.get("results");
-                    LastFMArtistsResposne artistsResposne = new Gson().fromJson(results.get("artistmatches").toString(), LastFMArtistsResposne.class);
+                    LastFMArtistsResposne artistsResposne = new Gson().fromJson(response.get("topalbums").toString(), LastFMArtistsResposne.class);
                     serviceResponse.onResponseReceived(artistsResposne);
                 } catch (JSONException e) {
                     e.printStackTrace();

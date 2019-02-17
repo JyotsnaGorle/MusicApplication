@@ -46,14 +46,14 @@ public class SearchFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("artistList", artistList);
+        outState.putParcelable("savedAlbumList", artistList);
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
         if(savedInstanceState != null) {
-            artistList = (LastFMArtistsResposne) savedInstanceState.get("artistList");
+            artistList = (LastFMArtistsResposne) savedInstanceState.get("savedAlbumList");
         }
     }
 
@@ -67,7 +67,7 @@ public class SearchFragment extends Fragment {
     private void searchArtists(String searchText) {
         LastFMService lastFMService = new LastFMService();
         try {
-            lastFMService.searchArtists(getActivity(), "cher", new ServiceResponse() {
+            lastFMService.searchArtists(getActivity(), "Cher", new ServiceResponse() {
                 @Override
                 public void onResponseReceived(LastFMArtistsResposne lastFMArtistsResposne) {
                     Log.d("", "");

@@ -6,10 +6,10 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class LastFMArtistsResposne implements Parcelable {
-    ArrayList<LastFMArtist> artist;
+    ArrayList<Album> album;
 
     protected LastFMArtistsResposne(Parcel in) {
-        artist = in.createTypedArrayList(LastFMArtist.CREATOR);
+        album = in.createTypedArrayList(Album.CREATOR);
     }
 
     public static final Creator<LastFMArtistsResposne> CREATOR = new Creator<LastFMArtistsResposne>() {
@@ -31,6 +31,6 @@ public class LastFMArtistsResposne implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(artist);
+        dest.writeTypedList(album);
     }
 }

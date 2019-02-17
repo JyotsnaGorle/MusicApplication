@@ -15,15 +15,15 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
 
     private static SQLiteDatabaseHandler sInstance;
 
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 8;
     private static final String DATABASE_NAME = "MyMusicDB";
     private static final String TABLE_NAME = "MyMusic";
     private static final String KEY_ID = "id";
     private static final String KEY_NAME = "name";
-    private static final String KEY_LISTENERS = "listeners";
+    private static final String KEY_PLAYCOUNT = "playcount";
     private static final String KEY_URL = "url";
     private static final String KEY_IMAGE = "image";
-    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_LISTENERS,
+    private static final String[] COLUMNS = {KEY_ID, KEY_NAME, KEY_PLAYCOUNT,
             KEY_URL, KEY_IMAGE};
 
     public static synchronized SQLiteDatabaseHandler getInstance(Context context) {
@@ -41,7 +41,7 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         String CREATION_TABLE = "CREATE TABLE MyMusic ( "
                 + "id INTEGER PRIMARY KEY AUTOINCREMENT, " + "name TEXT, "
-                + "listeners TEXT, " + "url TEXT," + " image BLOB)";
+                + "playcount TEXT, " + "url TEXT," + " image BLOB)";
 
         db.execSQL(CREATION_TABLE);
     }
@@ -53,37 +53,38 @@ public class SQLiteDatabaseHandler extends SQLiteOpenHelper {
     }
 
 
-    public ArrayList<Artist> allMyMusic() {
+    public ArrayList<SavedAlbum> allMyMusic() {
 
-        ArrayList<Artist> artists = new ArrayList<>();
+        ArrayList<SavedAlbum> savedAlbums = new ArrayList<>();
         String query = "SELECT  * FROM " + TABLE_NAME;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(query, null);
-        Artist artist = null;
+        SavedAlbum savedAlbum = null;
 
         if (cursor.moveToFirst()) {
             do {
                 byte[] imageBytes = cursor.getBlob(4);
-                artist = new Artist(Integer.parseInt(cursor.getString(0)),
+                savedAlbum = new SavedAlbum(Integer.parseInt(cursor.getString(0)),
                                     cursor.getString(1),
                                     cursor.getString(2),
                                     cursor.getString(3),
                         BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length));
-                artists.add(artist);
+
+                savedAlbums.add(savedAlbum);
             } while (cursor.moveToNext());
         }
 
-        return artists;
+        return savedAlbums;
     }
 
-    public void saveArtist(Artist artist) {
+    public void saveAlbum(SavedAlbum savedAlbum) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(KEY_NAME, artist.name);
-        values.put(KEY_LISTENERS, artist.listeners);
-        values.put(KEY_URL, artist.url);
+        values.put(KEY_NAME, savedAlbum.name);
+        values.put(KEY_PLAYCOUNT, savedAlbum.playcount);
+        values.put(KEY_URL, savedAlbum.url);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        artist.image.compress(Bitmap.CompressFormat.PNG, 100, out);
+        savedAlbum.image.compress(Bitmap.CompressFormat.PNG, 100, out);
         byte[] buffer=out.toByteArray();
         // insert
         values.put(KEY_IMAGE, buffer);

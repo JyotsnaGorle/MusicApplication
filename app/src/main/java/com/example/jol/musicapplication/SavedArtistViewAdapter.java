@@ -10,7 +10,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,12 +17,12 @@ import java.util.ArrayList;
 
 public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistViewAdapter.ViewHolder>  {
 
-    ArrayList<Artist> artistList;
+    ArrayList<SavedAlbum> savedAlbumList;
     Context context;
     private SQLiteDatabaseHandler db;
 
-    SavedArtistViewAdapter(Context context, ArrayList<Artist> artistList){
-        this.artistList = artistList;
+    SavedArtistViewAdapter(Context context, ArrayList<SavedAlbum> savedAlbumList){
+        this.savedAlbumList = savedAlbumList;
         this.context = context;
     }
 
@@ -38,19 +37,19 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
-        final Artist currentArtist = artistList.get(i);
-        viewHolder.imageView.setImageBitmap(currentArtist.image);
-        viewHolder.textView.setText(currentArtist.name);
+        final SavedAlbum currentSavedAlbum = savedAlbumList.get(i);
+        viewHolder.imageView.setImageBitmap(currentSavedAlbum.image);
+        viewHolder.textView.setText(currentSavedAlbum.name);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((SearchActivity) context).getSupportFragmentManager();
+                FragmentManager fm = ((MainActivity) context).getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
-                args.putParcelable("artist", (Parcelable) currentArtist);
+                args.putParcelable("saved_album", currentSavedAlbum);
                 AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
                 albumOverviewFragment.setArguments(args);
-                ft.replace(R.id.fragment_container, albumOverviewFragment, "album_overview");
+                ft.replace(R.id.fragment_container_2, albumOverviewFragment, "album_overview");
                 ft.addToBackStack("album_overview");
                 ft.commit();
             }
@@ -59,7 +58,7 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
 
     @Override
     public int getItemCount() {
-        return artistList.size();
+        return savedAlbumList.size();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

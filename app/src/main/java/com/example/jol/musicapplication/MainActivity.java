@@ -2,8 +2,8 @@ package com.example.jol.musicapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -23,17 +23,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setTitle("Home");
-        savedArtists = findViewById(R.id.saved_albums);
-        savedArtists.setHasFixedSize(true);
         db = SQLiteDatabaseHandler.getInstance(this);
+        startSavedAlbumFragment();
+    }
+
+    private void startSavedAlbumFragment() {
+        FragmentManager fm = getSupportFragmentManager();
+
+        android.support.v4.app.FragmentTransaction ft = fm.beginTransaction();
+        SavedAlbumListFragment savedAlbumListFragment = new SavedAlbumListFragment();
+        ft.replace(R.id.fragment_container_2, savedAlbumListFragment, "saved_albums_fragment");
+        ft.addToBackStack("saved_albums_fragment");
+        ft.commit();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        ArrayList<Artist> allMyMusic = db.allMyMusic();
-        if (allMyMusic.size() > 0 )
-            populateList(allMyMusic);
     }
 
     @Override
@@ -56,11 +62,5 @@ public class MainActivity extends AppCompatActivity {
     private void startSearchActivity() {
         Intent intent = new Intent(this, SearchActivity.class);
         startActivity(intent);
-    }
-
-    private void populateList(ArrayList<Artist> savedArtists) {
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
-        this.savedArtists.setLayoutManager(mLayoutManager);
-        this.savedArtists.setAdapter(new SavedArtistViewAdapter(this, savedArtists));
     }
 }

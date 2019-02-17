@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 import java.io.InputStream;
 
 public class AlbumOverviewFragment extends Fragment {
-    TextView listeners;
+    TextView playcount;
     TextView name;
     ImageView image;
     Button saveButton;
@@ -29,7 +28,7 @@ public class AlbumOverviewFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_album_overview,
                 container, false);
-        listeners = view.findViewById(R.id.number_listeners);
+        playcount = view.findViewById(R.id.number_listeners);
         name = view.findViewById(R.id.artist_overview_name);
         image = view.findViewById(R.id.artist_overview_image);
         saveButton = view.findViewById(R.id.save_button);
@@ -40,19 +39,33 @@ public class AlbumOverviewFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         ActionBar supportActionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         supportActionBar.setTitle("Overview");
-        LastFMArtist artist = (LastFMArtist) getArguments().get("artist");
-        name.setText(artist.name);
-        listeners.setText(artist.listeners);
-        final String url = artist.image.get(3).text;
-        if(image != null) {
-            new DownloadImageTask(image).execute(url);
-        }
-        saveButton.setOnClickListener( new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                new DownloadImageAndSaveToDB().execute(url);
+        supportActionBar.setDisplayShowHomeEnabled(true);
+        supportActionBar.setDisplayHomeAsUpEnabled(true);
+        if(getArguments().get("album") != null) {
+            Album album = (Album) getArguments().get("album");
+            name.setText(album.name);
+            playcount.setText(album.playcount);
+            String url = album.image.get(3).text;
+
+            if(image != null) {
+                new DownloadImageTask(image).execute(url);
             }
-        });
+            final String finalUrl = url;
+            saveButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    new DownloadImageAndSaveToDB().execute(finalUrl);
+                }
+            });
+        }
+        else if(getArguments().get("saved_album") != null) {
+            SavedAlbum savedaAlbum = (SavedAlbum) getArguments().get("saved_album");
+            name.setText(savedaAlbum.name);
+            playcount.setText(savedaAlbum.playcount);
+            image.setImageBitmap(savedaAlbum.image);
+            saveButton.setVisibility(View.INVISIBLE);
+        }
+
     }
 
     @SuppressLint("StaticFieldLeak")
@@ -73,8 +86,8 @@ public class AlbumOverviewFragment extends Fragment {
         }
 
         protected void onPostExecute(Bitmap result) {
-            Artist artist = new Artist(1, name.getText().toString(), listeners.getText().toString(), "", result);
-            SQLiteDatabaseHandler.getInstance(getContext()).saveArtist(artist);
+            SavedAlbum savedAlbum = new SavedAlbum(1, name.getText().toString(), playcount.getText().toString(), "", result);
+            SQLiteDatabaseHandler.getInstance(getContext()).saveAlbum(savedAlbum);
         }
     }
 }

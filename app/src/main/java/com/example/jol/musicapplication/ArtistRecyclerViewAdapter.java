@@ -16,11 +16,11 @@ import java.util.ArrayList;
 
 public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecyclerViewAdapter.ViewHolder>  {
 
-    private ArrayList<LastFMArtist> artistList;
+    private ArrayList<Album> artistList;
     Context context;
 
     ArtistRecyclerViewAdapter(Context context, LastFMArtistsResposne artistsResposne){
-        this.artistList = artistsResposne.artist;
+        this.artistList = artistsResposne.album;
         this.context = context;
     }
 
@@ -34,7 +34,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
-        final LastFMArtist currentArtist = artistList.get(i);
+        final Album currentArtist = artistList.get(i);
         String url = currentArtist.image.get(1).text;
         DownloadImageTask downloadImageTask = null;
         if(viewHolder.imageView != null) {
@@ -48,7 +48,7 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
                 FragmentManager fm = ((SearchActivity) context).getSupportFragmentManager();
                 FragmentTransaction ft = fm.beginTransaction();
                 Bundle args = new Bundle();
-                args.putParcelable("artist", currentArtist);
+                args.putParcelable("album", currentArtist);
                 AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
                 albumOverviewFragment.setArguments(args);
                 ft.replace(R.id.fragment_container, albumOverviewFragment, "album_overview");
