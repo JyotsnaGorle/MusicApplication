@@ -1,13 +1,11 @@
 package com.example.jol.musicapplication.fragments;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +14,9 @@ import android.widget.TextView;
 
 import com.example.jol.musicapplication.ArtistRecyclerViewAdapter;
 import com.example.jol.musicapplication.Models.Album;
-import com.example.jol.musicapplication.Service.LastFMService;
 import com.example.jol.musicapplication.Models.LastFMArtistsResposne;
 import com.example.jol.musicapplication.R;
+import com.example.jol.musicapplication.Service.LastFMService;
 import com.example.jol.musicapplication.Service.ServiceResponse;
 
 import java.io.IOException;
@@ -38,7 +36,7 @@ public class SearchFragment extends Fragment {
         inputSearch = view.findViewById(R.id.search_input);
         searchButton = view.findViewById(R.id.search_button);
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.artist_list);
+        mRecyclerView = view.findViewById(R.id.artist_list);
         mRecyclerView.setHasFixedSize(true);
 
         searchButton.setOnClickListener(new View.OnClickListener() {
@@ -68,10 +66,9 @@ public class SearchFragment extends Fragment {
     private void searchArtists(String searchText) {
         LastFMService lastFMService = new LastFMService();
         try {
-            lastFMService.searchArtists(getActivity(), "Cher", new ServiceResponse() {
+            lastFMService.searchArtists(getActivity(), searchText, new ServiceResponse() {
                 @Override
                 public void onResponseReceived(LastFMArtistsResposne lastFMArtistsResposne) {
-                    Log.d("", "");
                     artistList = lastFMArtistsResposne.album;
                     populateList(lastFMArtistsResposne.album);
                 }
