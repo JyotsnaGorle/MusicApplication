@@ -39,8 +39,14 @@ public class SavedArtistViewAdapter extends RecyclerView.Adapter<SavedArtistView
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         final SavedAlbum currentSavedAlbum = savedAlbumList.get(i);
         viewHolder.imageView.setImageBitmap(currentSavedAlbum.image);
-        viewHolder.textView.setText(currentSavedAlbum.name);
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchOverviewFragment(currentSavedAlbum);
+            }
+        });
+        viewHolder.textView.setText(currentSavedAlbum.name);
+        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 launchOverviewFragment(currentSavedAlbum);

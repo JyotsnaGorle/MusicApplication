@@ -50,20 +50,30 @@ public class ArtistRecyclerViewAdapter extends RecyclerView.Adapter<ArtistRecycl
             new DownloadImageAsyncTask(viewHolder.imageView).execute(url);
         }
         viewHolder.textView.setText(currentArtist.name);
+        viewHolder.textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchOverviewFragment(currentArtist);
+            }
+        });
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fm = ((SearchActivity) context).getSupportFragmentManager();
-                FragmentTransaction ft = fm.beginTransaction();
-                Bundle args = new Bundle();
-                args.putParcelable("album", currentArtist);
-                AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
-                albumOverviewFragment.setArguments(args);
-                ft.replace(R.id.fragment_container, albumOverviewFragment, "album_overview");
-                ft.addToBackStack("album_overview");
-                ft.commit();
+                launchOverviewFragment(currentArtist);
             }
         });
+    }
+
+    private void launchOverviewFragment(Album currentArtist) {
+        FragmentManager fm = ((SearchActivity) context).getSupportFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        Bundle args = new Bundle();
+        args.putParcelable("album", currentArtist);
+        AlbumOverviewFragment albumOverviewFragment = new AlbumOverviewFragment();
+        albumOverviewFragment.setArguments(args);
+        ft.replace(R.id.fragment_container, albumOverviewFragment, "album_overview");
+        ft.addToBackStack("album_overview");
+        ft.commit();
     }
 
     @Override
